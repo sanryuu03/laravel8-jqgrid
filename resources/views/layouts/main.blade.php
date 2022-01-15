@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ $title }}</title>
+
+  <link rel="stylesheet" href="/menu/menustyle.css">
+  <link rel="stylesheet" href="/css/custom.css">
+
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/free-jqgrid/4.8.0/css/ui.jqgrid.css">
+  <link rel="stylesheet" href="/css/jquery-ui-1.10.4.custom.min.css">
+  <link rel="stylesheet" type="text/css" media="screen" href="/css/cupertino/jquery-ui-1.10.4.custom.min.css"/>
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+
+  <!-- <link rel="stylesheet" type="text/css" media="screen" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"> -->
+  <link rel="stylesheet" type="text/css" media="screen" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/fontawesome-free-6.0.0-beta2-web/css/fontawesome.min.css">
+  <link rel="stylesheet" href="/fontawesome-free-6.0.0-beta2-web/css/regular.css">
+  <link rel="stylesheet" href="/fontawesome-free-6.0.0-beta2-web/css/solid.css">
+  <!-- <link rel="stylesheet" href="/css/style.css"> -->
+    <style>
+        .highlight {
+        /* background-color: #EEF43B; */
+        background-color: #00BFFF;
+        }
+
+        .ui-tabs-anchor {
+            font-size: 13.5px;
+        }
+
+        .judul {
+            display: block;
+            font-size: 1.5em;
+            margin-block-start: 0.83em;
+            margin-block-end: 0.83em;
+            margin-inline-start: 0px;
+            margin-inline-end: 0px;
+            font-weight: bold;
+        }
+
+        .ui-jqgrid-btable.ui-common-table {
+            font-size: 13px;
+            text-transform: uppercase;
+            /*font-style: italic;*/
+        }
+
+        tr {
+            font-size: 12px;
+        }
+
+        #gs_name {
+            height: 26px;
+            font-size: 12px;
+            width: 95%;
+            border-radius: 0;
+            /*font-weight: unset;*/
+            font-style: unset;
+        }
+
+        /* ini buat atur size  kotak search */
+        #gs_tanggal {
+            height: 26px;
+            font-size: 12px;
+            width: 95%;
+            border-radius: 0;
+            /*font-weight: unset;*/
+            font-style: unset;
+        }
+
+        #gs_client_id {
+            height: 26px;
+            font-size: 12px;
+            width: 95%;
+            border-radius: 0;
+            font-style: none;
+        }
+
+        table.ui-pg-table.navtable.ui-common-table {
+            margin-right: 480px;
+        }
+
+        .ui-tabs-anchor {
+            font-size: 13.5px;
+        }
+
+        span.ui-button-icon-primary.ui-icon.ui-icon-closethick {
+            margin-top: 10px;
+        }
+
+        .ui-button-icon-space #text {
+            display: none;
+        }
+
+        button .ui-button .ui-corner-all .ui-widget .ui-button-icon-only .ui-dialog-titlebar-close {
+            text-decoration: none;
+            display: none;
+            margin-left: 10px;
+        }
+
+        #resetdatafilter.active {
+            background-color: #d44d24;
+            color: #080808;
+        }
+
+        #resetdatafilter:hover {
+            background-color: #34d4f7;
+            color: #ffffff;
+            border: 1px solid #000000;
+        }
+
+        td.ui-search-clear {
+            width: 25px;
+        }
+
+        td.ui-pg-button.ui-corner-all:hover {
+            border-radius: 0;
+        }
+
+        #tabs {
+            border-radius: 0;
+        }
+
+        .ui-jqgrid.ui-widget.ui-widget-content.ui-corner-all {
+            border-radius: 0;
+        }
+
+        #plist48 {
+            border-radius: 0;
+        }
+
+        .ui-tabs-nav.ui-corner-all.ui-helper-reset.ui-helper-clearfix.ui-widget-header {
+            border-radius: 0;
+        }
+        @-moz-document url-prefix() {
+            #gs_name {
+                font-weight: unset;
+            }
+
+            #gs_client_id {
+                font-weight: unset;
+            }
+
+            .ui-jqgrid tr.jqgrow td {
+                height: 25px;
+            }
+        }
+    </style>
+</head>
+
+<header>
+    <h2 class="judul">{{ $title }}</h2>
+</header>
+
+<body>
+    @yield('menuContent')
+</body>
+
+    <script src="/js/jquery.min.js" type="text/ecmascript"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="/js/i18n/grid.locale-en.js" type="text/ecmascript"></script>
+    <script src="/js/530/js/trirand/jquery.jqGrid.min.js" type="text/ecmascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+    <script src="/js/jquery.inputmask.bundle.js"></script>
+    <script src="/autoNumeric.js"></script>
+    <script src="/highlight.js"></script>
+
+    <script>
+        $(document).ready(function()
+        {
+            $("#tabs").tabs({
+                active: false,
+                collapsible: true,
+                activate: function() {
+                    loadData();
+                }
+            })
+			.tabs('option', 'active', 0)
+			.tabs('option', 'collapsible', false);
+	    });
+    </script>
+    <script src="/js/script.js"></script>
+</html>
