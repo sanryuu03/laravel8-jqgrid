@@ -13,11 +13,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('sangrid', [
+// Route::get('/', function () {
+//     return view('sangrid', [
+//         "title" => "Sangrid CRUD"
+//     ]);
+// });
+
+// khusus php 7.4 ke atas
+Route::get('/', fn () => view('sangrid', [
         "title" => "Sangrid CRUD"
-    ]);
-});
+    ])
+);
+
 Route::get('/welcome', function () {
     return view('welcome');
 });
