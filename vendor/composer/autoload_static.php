@@ -529,6 +529,7 @@ class ComposerStaticInitcfc595eaf8ee28a743e7742a7f2bf02f
         'App\\Http\\Middleware\\TrustHosts' => __DIR__ . '/../..' . '/app/Http/Middleware/TrustHosts.php',
         'App\\Http\\Middleware\\TrustProxies' => __DIR__ . '/../..' . '/app/Http/Middleware/TrustProxies.php',
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
+        'App\\Models\\DetailModel' => __DIR__ . '/../..' . '/app/Models/DetailModel.php',
         'App\\Models\\SangridModel' => __DIR__ . '/../..' . '/app/Models/SangridModel.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
