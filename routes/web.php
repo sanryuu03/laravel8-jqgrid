@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SangridController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,10 +21,12 @@ use Illuminate\Support\Facades\Route;
 // });
 
 // khusus php 7.4 ke atas
-Route::get('/', fn () => view('sangrid', [
-        "title" => "Sangrid CRUD"
-    ])
-);
+// Route::get('/', fn () => view('sangrid', [
+//         "title" => "Sangrid CRUD"
+//     ])
+// );
+
+Route::get('/', [SangridController::class, 'index'] );
 
 Route::get('/welcome', function () {
     return view('welcome');

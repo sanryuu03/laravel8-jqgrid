@@ -7,9 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $title }}</title>
 
-  <link rel="stylesheet" href="{{ asset('css/menustyle.css') }}">
-  <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
-
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/free-jqgrid/4.8.0/css/ui.jqgrid.css">
   <link rel="stylesheet" href="{{ asset('css/jquery-ui-1.10.4.custom.min.css') }}">
   <link rel="stylesheet" type="text/css" media="screen" href="{{ asset('css/cupertino/jquery-ui-1.10.4.custom.min.css') }}"/>
@@ -158,19 +155,5 @@
     <script src="{{ asset('js/autoNumeric.js') }}"></script>
     <script src="{{ asset('js/highlight.js') }}"></script>
 
-    <script>
-        $(document).ready(function()
-        {
-            $("#tabs").tabs({
-                active: false,
-                collapsible: true,
-                activate: function() {
-                    loadData();
-                }
-            })
-			.tabs('option', 'active', 0)
-			.tabs('option', 'collapsible', false);
-	    });
-    </script>
     <script src="{{ asset('js/script.js') }}"></script>
 </html>
