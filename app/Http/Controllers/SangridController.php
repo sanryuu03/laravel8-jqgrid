@@ -91,21 +91,21 @@ class SangridController extends Controller
 		}
 		else {
                 // SELECT * FROM `sangrid_models` ORDER BY nama ASC LIMIT 0 , 10;
-        // cara 1
+        // cara 1 bisa sorting
+		$data = DB::table('sangrid_models')
+                ->orderBy($sidx, $sord)
+                ->offset($start)
+                ->limit($limit)
+                ->get();
+        // cara 2 bisa sorting
 		// $data = DB::table('sangrid_models')
         //         ->orderBy($sidx, $sord)
-        //         ->offset($start)
         //         ->limit($limit)
         //         ->get();
-        // cara 2
-		// $data = DB::table('sangrid_models')
-        //         ->orderBy($sidx, $sord)
-        //         ->limit($limit)
-        //         ->get();
-        // cara 3
+        // cara 3 tapi tidak bisa sorting
 		// $data = DB::table('sangrid_models')->paginate($limit);
-        // cara 4
-        $data = SangridModel::paginate($limit);
+        // cara 4 tapi tidak bisa sorting
+        // $data = SangridModel::paginate($limit);
 		}
 		$responce->page = $page;
 		$responce->total = $total_pages;
