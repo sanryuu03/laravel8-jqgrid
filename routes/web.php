@@ -26,7 +26,11 @@ use Illuminate\Support\Facades\Route;
 //     ])
 // );
 
-Route::get('/', [SangridController::class, 'index'] );
+// Route::get('/', [SangridController::class, 'index'] );
+// Route::post('/', [SangridController::class, 'index'] );
+Route::match(['get','post'], '/', [SangridController::class, 'index'] );
+Route::get('/SangridController/tampilMaster', [SangridController::class, 'tampilMaster'] );
+// Route::match(['get','post'] ,'/SangridController/tampilMaster', [SangridController::class, 'tampilMaster'] );
 
 Route::get('/welcome', function () {
     return view('welcome');

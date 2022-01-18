@@ -5,6 +5,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {{-- laravel wajib tambahkan ini  --}}
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    {{-- jika tidak ada csrf-token maka localhost tidak akan muncul --}}
+    {{-- karna localhost method post sedangkan tampilMaster method get --}}
+    {{-- sehingga di reoutenya menjadi match --}}
     <title>{{ $title }}</title>
 
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/free-jqgrid/4.8.0/css/ui.jqgrid.css">
@@ -43,7 +48,7 @@
             font-size: 12px;
         }
 
-        #gs_name {
+        #gs_nama {
             height: 26px;
             font-size: 12px;
             width: 95%;
@@ -62,7 +67,7 @@
             font-style: unset;
         }
 
-        #gs_client_id {
+        #gs_clientID {
             height: 26px;
             font-size: 12px;
             width: 95%;

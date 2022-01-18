@@ -6,9 +6,15 @@
 
 let operid = 0;
 let triggerClick = true;
-let sortName = "name";
+let sortName = "nama";
 let postData;
 let baseUrl = window.location.origin;
+// yang ini juga fitur laravel 8
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
 $(document).ready(function(){
     $("#tabs").tabs({
         active: false,
@@ -21,11 +27,11 @@ $(document).ready(function(){
     .tabs('option', 'collapsible', false);
 
 	function loadData() {
-		var url, oper;
+		// var url, oper;
 		//Data Guru
         console.log(baseUrl);
 		jQuery("#list1").jqGrid({
-			url: baseUrl + '/sangrid/tampilMaster',
+			url: baseUrl + '/SangridController/tampilMaster',
 			// mtype: "post",
 			mtype: "get",
 			datatype: "json",
@@ -35,8 +41,8 @@ $(document).ready(function(){
 				'Nama'
 			],
 			colModel: [{
-					name: 'client_id',
-					index: 'client_id',
+					name: 'clientID',
+					index: 'clientID',
 					width: 15,
 					key: true,
 					editable: true,
@@ -60,8 +66,8 @@ $(document).ready(function(){
 					}
                     },
 				{
-					name: 'name',
-					index: 'name',
+					name: 'nama',
+					index: 'nama',
 					width: 90,
 					editable: true,
 					editrules : { required: true},
@@ -79,14 +85,14 @@ $(document).ready(function(){
 
 
 			sortable: true,
-			// sortable untuk menggeser field client_id dan name
+			// sortable untuk menggeser field clientID dan name
 			pager: "#plist1",
 			rowList: [5, 10, 50],
 			height: 220,
 			width: '1100',
 			// autowidth: true,
 			viewrecords: true,
-			// sortname: "client_id",
+			// sortname: "clientID",
 			sortname : sortName,
 			rownumbers: true,
 			sortorder: "asc",
@@ -101,23 +107,23 @@ $(document).ready(function(){
 			stringResult: false,
 			enctype: 'multipart/form-data',
 
-			onSelectRow: function(client_id, selected) {
+			onSelectRow: function(clientID, selected) {
 				activeGrid = "#list1";
-				operid = $(this).jqGrid("getCell", client_id, "rn") - 1;
+				operid = $(this).jqGrid("getCell", clientID, "rn") - 1;
 				page = $(this).jqGrid("getGridParam", "page") - 1;
 				rows = $(this).jqGrid("getGridParam", "postData").rows;
 				if (operid >= rows) operid = operid - rows * page;
-				if (client_id != null) {
-					// var data = $("#list1").getRowData(client_id);
-					let data = $("#list1").getRowData(client_id).client_id.replace(/(<([^>]+)>)/gi, "");
-					// console.log(client_id);
+				if (clientID != null) {
+					// var data = $("#list1").getRowData(clientID);
+					let data = $("#list1").getRowData(clientID).clientID.replace(/(<([^>]+)>)/gi, "");
+					// console.log(clientID);
 				// return false;
 					jQuery("#jqGridDetails").jqGrid('setGridParam', {
-						url: baseUrl + '/sangrid/selectJqgrid' + client_id, datatype: "json",
+						url: baseUrl + '/sangrid/selectJqgrid/' + clientID, datatype: "json",
 					});
 					jQuery("#jqGridDetails").trigger("reloadGrid");
 				}
-				// operid = $(this).jqGrid("getCell", client_id, "client_id");
+				// operid = $(this).jqGrid("getCell", clientID, "clientID");
 				console.log('ini operid',operid);
 			},
 			loadComplete: function()
@@ -134,13 +140,13 @@ $(document).ready(function(){
 				// console.log($("#" + $("#list1").getDataIDs()[operid]));
 				// const val = document.querySelector('name').value;
 				// ambil nilai dari search name atau nama
-				const val = document.getElementById('gs_name').value;
-				const valClient = document.getElementById('gs_client_id').value;
+				const val = document.getElementById('gs_nama').value;
+				const valClient = document.getElementById('gs_clientID').value;
 				const valTanggal = document.getElementById('gs_tanggal').value;
 				const valGlobalSearch = document.getElementById('globalSearch').value;
   				console.log('ini value input nama yaitu ' + val);
 				$('[aria-describedby=list1_name]').highlight(val);
-				$('[aria-describedby=list1_client_id]').highlight(valClient);
+				$('[aria-describedby=list1_clientID]').highlight(valClient);
 				$('[aria-describedby=list1_tanggal]').highlight(valTanggal);
 				$('#list1 tbody tr td:not([aria-describedby=list1_rn])').highlight(valGlobalSearch);
 
@@ -208,7 +214,7 @@ $(document).ready(function(){
 			sortable: true,
 			width: 835,
 			viewrecords: true,
-			// sortname: "client_id",
+			// sortname: "clientID",
 			sortname: sortName,
 			rownumbers: true,
 			rowNum: 10,
@@ -250,10 +256,10 @@ $(document).ready(function(){
 				id: "delClients",
 				buttonicon: "ui-icon-trash",
 				onClickButton: function() {
-					var client_id = $("#list1").jqGrid('getGridParam', 'selrow');
-					if (client_id != null) {
-						//alert(client_id);
-						HapusClients(client_id);
+					var clientID = $("#list1").jqGrid('getGridParam', 'selrow');
+					if (clientID != null) {
+						//alert(clientID);
+						HapusClients(clientID);
 					} else {
 						alert("Pilih Row")
 					}
@@ -268,11 +274,11 @@ $(document).ready(function(){
 				id: "editClients",
 				buttonicon: "ui-icon-pencil",
 				onClickButton: function() {
-					var client_id = jQuery("#list1").jqGrid('getGridParam', 'selrow');
-					// console.log(client_id);
+					var clientID = jQuery("#list1").jqGrid('getGridParam', 'selrow');
+					// console.log(clientID);
 					// return false;
-					if (client_id != null) {
-						EditClients(client_id);
+					if (clientID != null) {
+						EditClients(clientID);
 					} else {
 						alert("Pilih Row")
 					}
@@ -287,10 +293,10 @@ $(document).ready(function(){
 				id: "viewClients",
 				buttonicon: "ui-icon-document",
 				onClickButton: function() {
-					var client_id = jQuery("#list1").jqGrid('getGridParam', 'selrow');
-					if (client_id != null) {
-						//alert(client_id);
-						DetailClients(client_id);
+					var clientID = jQuery("#list1").jqGrid('getGridParam', 'selrow');
+					if (clientID != null) {
+						//alert(clientID);
+						DetailClients(clientID);
 					} else {
 						alert("Pilih row");
 					}
@@ -508,7 +514,7 @@ $(document).ready(function(){
 		$('#fm :input[required]:visible').each(function(index, element) {
 			if ($(element).val().trim() == "") {
 				status = false,
-					alert($(element).attr('client_id') + " tidak boleh kosong");
+					alert($(element).attr('clientID') + " tidak boleh kosong");
 				$(element).focus();
 				return false;
 			}
@@ -619,8 +625,8 @@ $(document).ready(function(){
 	}
 
 	// dialog hapus guru
-	function HapusClients(client_id) {
-		page = baseUrl + '/sangrid/formDelete/' + client_id;
+	function HapusClients(clientID) {
+		page = baseUrl + '/sangrid/formDelete/' + clientID;
 		$('#forminput').html("<img src= baseUrl + '/images/loading.gif'").load(page);
 		$("#forminput").dialog({
 			top: 10,
@@ -641,7 +647,7 @@ $(document).ready(function(){
 				{
 					html: "<img class='icon' src='{{  asset('images/delete.png') }}'>Delete",
 					click: function() {
-						url = baseUrl + '/sangrid/deleteJqgrid/' + client_id;
+						url = baseUrl + '/sangrid/deleteJqgrid/' + clientID;
 						var jwb = confirm('Anda yakin ingin menghapus data ini ?');
 						if (jwb == 1) {
 							hapusDataClients();
@@ -653,8 +659,8 @@ $(document).ready(function(){
 	}
 
 	// dialog edit guru
-	function EditClients(client_id) {
-		page = baseUrl + '/sangrid/formEdit/' + client_id;
+	function EditClients(clientID) {
+		page = baseUrl + '/sangrid/formEdit/' + clientID;
 		$('#forminput').html("<img src= baseUrl + '/images/loading.gif'").load(page);
 		$("#forminput").dialog({
 			top: 10,
@@ -674,7 +680,7 @@ $(document).ready(function(){
 			}, {
 				html: "<img class='icon' src='/images/ok.png'>Save",
 				click: function() {
-					url = baseUrl + '/sangrid/updateJqgrid/' + client_id;
+					url = baseUrl + '/sangrid/updateJqgrid/' + clientID;
 					updateDataClients();
 				}
 			}],
@@ -696,8 +702,8 @@ $(document).ready(function(){
 		}
 
 	// dialog detail
-	function DetailClients(client_id) {
-		page = baseUrl + '/sangrid/formDetail/' + client_id;
+	function DetailClients(clientID) {
+		page = baseUrl + '/sangrid/formDetail/' + clientID;
 		$('#forminput').html("<img src= baseUrl + '/images/loading.gif'").load(page);
 		$("#forminput").dialog({
 			top: 10,

@@ -2,7 +2,7 @@
 
 @section('menuContent')
  <p>anda mengunjungi  {{  url('') }}</p>
- <form action="" method="post">
+ <form action="/SangridController/tampilMaster" method="POST">
 	<label for="">Global Search</label>
 	<input type="search" id="globalSearch" style="width:250px" placeholder="Keyword..."/>
 </form>
@@ -25,5 +25,4 @@
 		</div>
 	</div>
 </div>
-
 @endsection
