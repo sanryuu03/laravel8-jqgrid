@@ -1,4 +1,4 @@
-// let keyword = document.getElementById('cariSangrid');
+// let keyword = document.getElementById('cariSangridController');
 // keyword.addEventListener('keyup', function()
 // {
 //     console.log('ok');
@@ -119,7 +119,7 @@ $(document).ready(function(){
 					// console.log(clientID);
 				// return false;
 					jQuery("#jqGridDetails").jqGrid('setGridParam', {
-						url: baseUrl + '/sangrid/selectJqgrid/' + clientID, datatype: "json",
+						url: baseUrl + '/SangridController/selectJqgrid/' + clientID, datatype: "json",
 					});
 					jQuery("#jqGridDetails").trigger("reloadGrid");
 				}
@@ -199,7 +199,7 @@ $(document).ready(function(){
 					search: false,
 				},
 				{
-					name: 'harga_hobi',
+					name: 'hargaHobi',
 					index: 'harga hobi',
 					align: 'right',
 					width: 200,
@@ -311,7 +311,7 @@ $(document).ready(function(){
 				buttonicon: "ui-icon-print",
 				onClickButton: function() {
 					console.log('ini excel');
-					location.href = "{{  url('sangrid/spreadSheet') }}";
+					location.href = "{{  url('SangridController/spreadSheet') }}";
 				},
 				position: 'fourth',
 			})
@@ -357,7 +357,7 @@ $(document).ready(function(){
 								}
 								window.open(
 									baseUrl +
-										`/sangrid/StimulsoftM?${params}&start=${start}&limit=${limit}&orders_sidx=${postData.sidx}&orders_sord=${postData.sord}`
+										`/SangridController/StimulsoftM?${params}&start=${start}&limit=${limit}&orders_sidx=${postData.sidx}&orders_sord=${postData.sord}`
 								);
 							},
 							Cancel: function () {
@@ -413,9 +413,9 @@ $(document).ready(function(){
 								report('excel')
 								// window.open(
 								// 	baseUrl +
-								// 		`/sangrid/spreadSheetM${params}&start=${start}&limit=${limit}&orders_sidx=${postData.sidx}&orders_sord=${postData.sord}`
+								// 		`/SangridController/spreadSheetM${params}&start=${start}&limit=${limit}&orders_sidx=${postData.sidx}&orders_sord=${postData.sord}`
 								// );
-								// window.open(baseUrl+'/sangrid/spreadSheetM'+'?'+'&start='+start+'&limit='+limit+'&sidx='+postData.sidx+'&sord='+postData.sord+'&type='+type)
+								// window.open(baseUrl+'/SangridController/spreadSheetM'+'?'+'&start='+start+'&limit='+limit+'&sidx='+postData.sidx+'&sord='+postData.sord+'&type='+type)
 							},
 							Cancel: function () {
 								activeGrid = "#customer";
@@ -531,7 +531,7 @@ $(document).ready(function(){
 					type: "POST",
 					url:
 						baseUrl +
-						"/sangrid/insertJqgrid" +
+						"/SangridController/insertJqgrid" +
 						"/" +
 						$('#list1').jqGrid("getGridParam", "postData").rows,
 					data: $('#fm').serialize(),
@@ -598,7 +598,7 @@ $(document).ready(function(){
 
 	// dialog add guru
 	function AddClients() {
-		page = baseUrl + '/sangrid/formCreate';
+		page = baseUrl + '/SangridController/formCreate';
 		$('#forminput').html("<img src= baseUrl + '/images/loading.gif'").load(page);
 		$("#forminput").dialog({
 			top: 10,
@@ -626,7 +626,7 @@ $(document).ready(function(){
 
 	// dialog hapus guru
 	function HapusClients(clientID) {
-		page = baseUrl + '/sangrid/formDelete/' + clientID;
+		page = baseUrl + '/SangridController/formDelete/' + clientID;
 		$('#forminput').html("<img src= baseUrl + '/images/loading.gif'").load(page);
 		$("#forminput").dialog({
 			top: 10,
@@ -647,7 +647,7 @@ $(document).ready(function(){
 				{
 					html: "<img class='icon' src='{{  asset('images/delete.png') }}'>Delete",
 					click: function() {
-						url = baseUrl + '/sangrid/deleteJqgrid/' + clientID;
+						url = baseUrl + '/SangridController/deleteJqgrid/' + clientID;
 						var jwb = confirm('Anda yakin ingin menghapus data ini ?');
 						if (jwb == 1) {
 							hapusDataClients();
@@ -660,7 +660,7 @@ $(document).ready(function(){
 
 	// dialog edit guru
 	function EditClients(clientID) {
-		page = baseUrl + '/sangrid/formEdit/' + clientID;
+		page = baseUrl + '/SangridController/formEdit/' + clientID;
 		$('#forminput').html("<img src= baseUrl + '/images/loading.gif'").load(page);
 		$("#forminput").dialog({
 			top: 10,
@@ -680,7 +680,7 @@ $(document).ready(function(){
 			}, {
 				html: "<img class='icon' src='/images/ok.png'>Save",
 				click: function() {
-					url = baseUrl + '/sangrid/updateJqgrid/' + clientID;
+					url = baseUrl + '/SangridController/updateJqgrid/' + clientID;
 					updateDataClients();
 				}
 			}],
@@ -697,26 +697,26 @@ $(document).ready(function(){
 		var sidx   = $("#plist1").jqGrid('getGridParam','sortname');
 		var sord   = $("#plist1").jqGrid('getGridParam','sortorder');
 		// var filter = ($("#plist1").getGridParam("postData").filters ? $("#plist1").getGridParam("postData").filters : '');
-		window.open(baseUrl+'/sangrid/spreadSheetM'+'?'+'&start='+start+'&limit='+limit+'&sidx='+postData.sidx+'&sord='+postData.sord+'&type='+type)
+		window.open(baseUrl+'/SangridController/spreadSheetM'+'?'+'&start='+start+'&limit='+limit+'&sidx='+postData.sidx+'&sord='+postData.sord+'&type='+type)
 		// window.open(baseUrl+'/pelanggan/report?filter='+filter+'&start='+start+'&limit='+limit+'&sidx='+sidx+'&sord='+sord+'&type='+type)
 		}
 
 	// dialog detail
 	function DetailClients(clientID) {
-		page = baseUrl + '/sangrid/formDetail/' + clientID;
-		$('#forminput').html("<img src= baseUrl + '/images/loading.gif'").load(page);
+		page = '/SangridController/formDetail/' + clientID;
+		$('#forminput').html("<img src= '/images/loading.gif'").load(page);
 		$("#forminput").dialog({
 			top: 10,
 			modal: false,
 			title: "View Data",
-			height: '450',
-			width: '520',
+			height: '550',
+			width: '550',
 			position: [0, 0],
 			show: {
 				effect: 'fade'
 			},
 			buttons: [{
-				html: "<img class='icon' src= baseUrl+ '/images/cancel.png'>Cancel",
+				html: "<img class='icon' src= '/images/cancel.png'>Cancel",
 				click: function() {
 					$(this).dialog('close');
 				}
@@ -733,7 +733,7 @@ $(document).ready(function () {
         grid.jqGrid('setGridParam', { search: false });
         var postData = grid.jqGrid('getGridParam', 'postData');
         $("#globalSearch").val("");
-        $.extend(postData, { cariSangrid: "" });
+        $.extend(postData, { cariSangridController: "" });
         // ini untuk nimpa value di search name
         $('[id*="gs_"]').val('')
         // console.log($('[id*="gs_"]'))
@@ -752,7 +752,7 @@ $(document).ready(function () {
     $('#globalSearch').on('keyup', function () {
         $('#list1').setGridParam({
             postData: {
-                cariSangrid: $(this).val()
+                cariSangridController: $(this).val()
             }
         }).trigger('reloadGrid');
     })

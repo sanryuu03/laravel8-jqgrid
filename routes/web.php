@@ -30,7 +30,12 @@ use Illuminate\Support\Facades\Route;
 // Route::post('/', [SangridController::class, 'index'] );
 Route::match(['get','post'], '/', [SangridController::class, 'index'] );
 Route::get('/SangridController/tampilMaster', [SangridController::class, 'tampilMaster'] );
-// Route::match(['get','post'] ,'/SangridController/tampilMaster', [SangridController::class, 'tampilMaster'] );
+Route::get('/SangridController/formCreate', [SangridController::class, 'formCreate'] );
+// Route::post('/SangridController/insertJqgrid/{id}', [SangridController::class, 'insertJqgrid'] );
+Route::match(['get','post'], '/SangridController/insertJqgrid/{id}', [SangridController::class, 'insertJqgrid'] );
+Route::match(['get','post'], '/SangridController/selectJqgrid/{id}', [SangridController::class, 'selectJqgrid'] );
+// Route::get('/SangridController/formDetail/{id}', [SangridController::class, 'formDetail/{id}'] );
+Route::match(['get','post'], '/SangridController/formDetail/{id}', [SangridController::class, 'formDetail'] );
 
 Route::get('/welcome', function () {
     return view('welcome');

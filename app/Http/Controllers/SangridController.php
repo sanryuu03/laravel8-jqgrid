@@ -125,4 +125,125 @@ class SangridController extends Controller
 		// echo json_encode($responce);
         return response()->json($responce);
 	}
+
+    public function formCreate()
+    {
+		return view('formAdd');
+	}
+
+    public function insertJqgrid(Request $request, $limit)
+    {
+		$tanggalVar = $request->input('tanggal');
+		$nameVar = $request->input('nama');
+		$jobdeskVar = $request->input('jobdesk');
+		$hobiVar = $request->input('hobi');
+		$hargaHobiVar = $request->input('hargaHobi');
+        $sort_index = 'nama';
+		$sort_order = 'asc';
+        $countJobdesk = count($jobdeskVar);
+		// var_dump(count($jobdeskVar));
+		// die;
+        $data = [
+			// 'tanggal' => $tanggalVar,
+			'tanggal' => date('Y-m-d', strtotime($tanggalVar)),
+			'nama' => $nameVar,
+		];
+        $insert_id = DB::table('sangrid_models')->insertGetId($data);
+        // dd($insert_id);
+		for ($x = 0; $x < $countJobdesk; $x++) {
+			if ($jobdeskVar[$x] !== '' && $hobiVar[$x] !== '' && $hargaHobiVar[$x] !== '') {
+				$data = [
+					'clientID' => $insert_id,
+					'jobdesk' => $jobdeskVar[$x],
+					'hobi' => $hobiVar[$x],
+					'hargaHobi' => str_replace(".", "", $hargaHobiVar[$x])
+				];
+				// $this->db->insert('jobdesk',$data);
+                 DB::table('detail_models')->insert($data);
+			}
+		}
+		$client_id = $insert_id;
+		$dataSql = DB::select("
+			SELECT temp.position, temp.*
+			FROM (
+				SELECT @rownum := @rownum + 1 AS position,
+							 sangrid_models.*
+				FROM sangrid_models
+				JOIN (
+					SELECT @rownum := 0
+				) rownum
+				ORDER BY $sort_index $sort_order
+			) temp
+			WHERE temp.clientID = ". $client_id ."
+		");
+		$row = $dataSql[0]->position;
+		$page = ceil($row / $limit);
+		echo json_encode([
+			'status' => 'submitted',
+			'operid' => $insert_id,
+			'page' => $page,
+			'row' => $row,
+		]);
+	}
+
+    public function selectJqgrid($clientID){
+		$responce = new \stdClass();
+
+		// $data = DB::select("SELECT sangrid_models.clientID,detail_models.jobdesk, detail_models.hobi, detail_models.hargaHobi FROM detail_models INNER JOIN sangrid_models ON detail_models.clientID = sangrid_models.clientID WHERE sangrid_models.clientID = '$clientID'");
+
+		// $data = DetailModel::join('sangrid_models', 'sangrid_models.clientID', '=', 'detail_models.clientID')
+        //         ->select('*')
+        //         ->get();
+
+        // $data = DetailModel::where('clientID', $clientID)->findOrFail();
+        // ini sukses
+        $data = DetailModel::where('clientID', $clientID)->get();
+        // $data = DetailModel::select('*')->where('clientID', $clientID)->get();
+		// $data = DetailModel::findOrFail($clientID);
+		// $data = DetailModel::findOrFail($clientID)->where('clientID', $clientID)->get();;
+		// $data = DetailModel::with('sangrid')->find($clientID);
+		// $data = DetailModel::findOrFail($id, $clientID = ['clientID']);
+		// $data = DetailModel::where('clientID','=',$clientID)->firstOrFail();
+		// $data = DetailModel::where('clientID','=',$clientID)->first();
+        // dd($data);
+        // return response()->json($data);
+		// var_dump($data);
+		// die;
+		$i=0;
+		$hargaHobiVar=0;
+        // dd({{ $data->hargaHobi }});
+        // $hargaHobiVar += {{ $data->hargaHobi }};
+		foreach($data as $row){
+            // dd($row);
+			$hargaHobiVar += $row->hargaHobi;
+			// var_dump($hargaHobiVar);
+			// die;
+			$responce->rows[$i]['clientID'] = $row->clientID;
+			$responce->rows[$i]['cell'] = array(
+				$row->jobdesk,
+				$row->hobi,
+				number_format($row->hargaHobi, 0, ',', '.')
+			);
+			$i++;
+		}
+		$responce->userdata['hobi'] = 'Totals:';
+		$responce->userdata['hargaHobi']= number_format($hargaHobiVar, 0, ',', '.');
+		$responce->userdata['result'] = 'Data Berhasil di panggil';
+		// var_dump($hargaHobiVar);
+		// 	die;
+        return response()->json($responce);
+
+		// echo json_encode($responce);
+	}
+
+    public function formDetail($clientID){
+		$data['clients'] = SangridModel::where('clientID', $clientID)->get();
+		$data['jobdesk'] = DetailModel::where('clientID', $clientID)->get();
+		$data['totalHarga'] = DB::select("SELECT SUM(hargaHobi) as total FROM detail_models WHERE clientID='$clientID'");
+        // return response()->json($data['total']);
+        // return response()->json($data['clients']->tanggal);
+		// var_dump($data['total']);
+		// die;
+		return view('formDetail', $data);
+	}
 }
