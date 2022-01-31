@@ -31,7 +31,7 @@ $(document).ready(function(){
 		//Data Guru
         console.log(baseUrl);
 		jQuery("#list1").jqGrid({
-			url: baseUrl + '/SangridController/tampilMaster',
+			url: '/SangridController/tampilMaster',
 			// mtype: "post",
 			mtype: "get",
 			datatype: "json",
@@ -604,8 +604,8 @@ $(document).ready(function(){
 			top: 10,
 			modal: false,
 			title: "Add Data",
-			height: '400',
-			width: '610',
+			height: '600',
+			width: '650',
 			position: [0, 0],
 			show: {
 				effect: 'fade'
@@ -626,28 +626,28 @@ $(document).ready(function(){
 
 	// dialog hapus guru
 	function HapusClients(clientID) {
-		page = baseUrl + '/SangridController/formDelete/' + clientID;
-		$('#forminput').html("<img src= baseUrl + '/images/loading.gif'").load(page);
+		page = '/SangridController/formDelete/' + clientID;
+		$('#forminput').html("<img src= '/images/loading.gif'").load(page);
 		$("#forminput").dialog({
 			top: 10,
 			modal: false,
 			title: "Hapus Data",
-			height: '450',
-			width: '560',
+			height: '600',
+			width: '650',
 			position: [0, 0],
 			show: {
 				effect: 'fade'
 			},
 			buttons: [{
-					html: "<img class='icon' src= baseUrl+ '/images/cancel.png'>Cancel",
+					html: "<img class='icon' src= '/images/cancel.png'>Cancel",
 					click: function() {
 						$(this).dialog('close');
 					}
 				},
 				{
-					html: "<img class='icon' src='{{  asset('images/delete.png') }}'>Delete",
+					html: "<img class='icon' src='/images/delete.png'>Delete",
 					click: function() {
-						url = baseUrl + '/SangridController/deleteJqgrid/' + clientID;
+						url = '/SangridController/deleteJqgrid/' + clientID;
 						var jwb = confirm('Anda yakin ingin menghapus data ini ?');
 						if (jwb == 1) {
 							hapusDataClients();
@@ -660,27 +660,27 @@ $(document).ready(function(){
 
 	// dialog edit guru
 	function EditClients(clientID) {
-		page = baseUrl + '/SangridController/formEdit/' + clientID;
-		$('#forminput').html("<img src= baseUrl + '/images/loading.gif'").load(page);
+		page = '/SangridController/formEdit/' + clientID;
+		$('#forminput').html("<img src= '/images/loading.gif'").load(page);
 		$("#forminput").dialog({
 			top: 10,
 			modal: false,
 			title: "Edit Data",
-			height: '450',
-			width: '530',
+			height: '550',
+			width: '650',
 			position: [0, 0],
 			show: {
 				effect: 'fade'
 			},
 			buttons: [{
-				html: "<img class='icon' src= baseUrl+ '/images/cancel.png'>Cancel",
+				html: "<img class='icon' src= '/images/cancel.png'>Cancel",
 				click: function() {
 					$(this).dialog('close');
 				}
 			}, {
 				html: "<img class='icon' src='/images/ok.png'>Save",
 				click: function() {
-					url = baseUrl + '/SangridController/updateJqgrid/' + clientID;
+					url = '/SangridController/updateJqgrid/' + clientID;
 					updateDataClients();
 				}
 			}],

@@ -37,6 +37,12 @@ Route::match(['get','post'], '/SangridController/selectJqgrid/{id}', [SangridCon
 // Route::get('/SangridController/formDetail/{id}', [SangridController::class, 'formDetail/{id}'] );
 Route::match(['get','post'], '/SangridController/formDetail/{id}', [SangridController::class, 'formDetail'] );
 
+Route::match(['get','post'], '/SangridController/formEdit/{id}', [SangridController::class, 'formEdit'] );
+Route::match(['get','post'], '/SangridController/updateJqgrid/{id}', [SangridController::class, 'updateJqgrid'] );
+
+Route::match(['get','post'], '/SangridController/formDelete/{id}', [SangridController::class, 'formDelete'] );
+Route::match(['get','post'], '/SangridController/deleteJqgrid/{id}', [SangridController::class, 'deleteJqgrid'] );
+
 Route::get('/welcome', function () {
     return view('welcome');
 });

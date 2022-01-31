@@ -81,13 +81,13 @@ class SangridController extends Controller
 		}
 		}
 		else if ($cariClient){
-		$data = $this->db->query("SELECT * FROM `clients` WHERE `client_id` LIKE '%$cariClient%'");
+		$data = $this->db->query("SELECT * FROM `clients` WHERE `clientID` LIKE '%$cariClient%'");
 		}
 		else if ($cariTanggal){
 		$data = $this->db->query("SELECT * FROM `clients` WHERE `tanggal` LIKE '%$cariTanggal%'");
 		}
 		else if ($cariGlobal){
-		$data = $this->db->query("SELECT * FROM `clients` WHERE `client_id` LIKE '%$cariGlobal%' OR `name` LIKE '%$cariGlobal%' OR `tanggal` LIKE '%$cariGlobal%'");
+		$data = $this->db->query("SELECT * FROM `clients` WHERE `clientID` LIKE '%$cariGlobal%' OR `name` LIKE '%$cariGlobal%' OR `tanggal` LIKE '%$cariGlobal%'");
 		}
 		else {
                 // SELECT * FROM `sangrid_models` ORDER BY nama ASC LIMIT 0 , 10;
@@ -162,7 +162,7 @@ class SangridController extends Controller
                  DB::table('detail_models')->insert($data);
 			}
 		}
-		$client_id = $insert_id;
+		$clientID = $insert_id;
 		$dataSql = DB::select("
 			SELECT temp.position, temp.*
 			FROM (
@@ -174,7 +174,7 @@ class SangridController extends Controller
 				) rownum
 				ORDER BY $sort_index $sort_order
 			) temp
-			WHERE temp.clientID = ". $client_id ."
+			WHERE temp.clientID = ". $clientID ."
 		");
 		$row = $dataSql[0]->position;
 		$page = ceil($row / $limit);
@@ -245,5 +245,63 @@ class SangridController extends Controller
 		// var_dump($data['total']);
 		// die;
 		return view('formDetail', $data);
+	}
+
+    public function formEdit($clientID){
+		$data['clients'] = SangridModel::where('clientID', $clientID)->get();
+		$data['jobdesk'] = DetailModel::where('clientID', $clientID)->get();
+		$data['totalHarga'] = DB::select("SELECT SUM(hargaHobi) as total FROM detail_models WHERE clientID='$clientID'");
+		// var_dump($data['total']);
+		// die;
+		return view('formEdit', $data);
+	}
+
+    public function updateJqgrid(Request $request, $clientID){
+        // konsep update yaitu delete insert
+		$tanggalVar = $request->input('tanggal');
+		$nameVar = $request->input('nama');
+		$jobdeskVar = $request->input('jobdesk');
+		$hobiVar = $request->input('hobi');
+		$hargaHobiVar = $request->input('hargaHobi');
+		$countJobdesk = count($jobdeskVar);
+		// var_dump($hargaHobiVar);
+		// var_dump(str_replace(".", "", $hargaHobiVar));
+		// die;
+        // ini menggunakan Eloquent
+        DetailModel::where('clientID', $clientID)->delete();
+		for ($x = 0; $x < $countJobdesk; $x++) {
+			if ($jobdeskVar[$x] !== '' && $hobiVar[$x] !== '' && $hargaHobiVar[$x] !== '') {
+				$data = [
+					'clientID' => $clientID,
+					'jobdesk' => $jobdeskVar[$x],
+					'hobi' => $hobiVar[$x],
+					'hargaHobi' => str_replace(".", "", $hargaHobiVar[$x])
+				];
+                // Eloquent
+				DetailModel::create($data);
+			}
+		}
+		// //ini untuk master
+		$data = [
+			'tanggal' => date('Y-m-d', strtotime($tanggalVar)),
+			'nama' => $nameVar,
+		];
+		// ini menggunakan Query Builder
+        DB::table('sangrid_models')
+              ->where('clientID', $clientID)
+              ->update($data);
+		echo json_encode($data);
+	}
+
+    public function formDelete($clientID){
+		$data['clients'] = SangridModel::where('clientID', $clientID)->get();
+		$data['jobdesk'] = DetailModel::where('clientID', $clientID)->get();
+		$data['totalHarga'] = DB::select("SELECT SUM(hargaHobi) as total FROM detail_models WHERE clientID='$clientID'");
+		return view('formDelete', $data);
+	}
+
+    public function deleteJqgrid($clientID){
+        SangridModel::where('clientID', $clientID)->delete();
+        DetailModel::where('clientID', $clientID)->delete();
 	}
 }
